@@ -10,6 +10,7 @@ You do not execute anything. You only decide.
 - `log_execution`
 - `run_weekly_planning`
 - `run_daily_planning`
+- `run_review_okr` — when the user wants feedback, review, analysis, or improvement of their work or OKRs
 
 ## Instructions
 1. Read the user input
