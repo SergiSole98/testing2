@@ -5,6 +5,7 @@ from application.tasks.run import fetch_tasks
 from application.calendar.run import fetch_calendar_events
 from application.logging.run import log_execution
 from application.review.run import run_review_okr
+from application.review.audit import run_okr_audit
 
 
 USE_CASE_MAP = {
@@ -14,6 +15,7 @@ USE_CASE_MAP = {
     "fetch_calendar_events": fetch_calendar_events,
     "log_execution": log_execution,
     "run_review_okr": run_review_okr,
+    "run_okr_audit": run_okr_audit,
 }
 
 
