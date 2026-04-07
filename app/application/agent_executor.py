@@ -24,6 +24,11 @@ def agent_executor(user_input: str):
         fn = USE_CASE_MAP.get(use_case)
         if fn is None:
             return f"Error: unknown use case '{use_case}'."
+
+        # Pass parameters if provided
+        params = decision.get("params", {})
+        if params:
+            return fn(**params)
         return fn()
 
     if action == "ask_user":

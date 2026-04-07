@@ -4,7 +4,16 @@ import os
 
 def call_llm(prompt: str) -> str:
     # Mock LLM — replace with real API call later
-    p = prompt.lower()
+    p = prompt.lower().strip()
+
+    # Check for simple number input (for OKR selection)
+    if p.isdigit():
+        return json.dumps({
+            "action": "run_use_case",
+            "use_case": "run_review_okr",
+            "params": {"selected_index": int(p)}
+        })
+
     if any(k in p for k in ["weekly", "semanal", "semana"]):
         return '{"action": "run_use_case", "use_case": "run_weekly_planning"}'
     if any(k in p for k in ["daily", "diario", "día", "dia"]):
