@@ -32,8 +32,7 @@ You are an **OKR Auditor** that analyzes a single objective and its key results,
 
 ## Output
 
-1. Objective overview: title, dates, owner, status.
-2. KRs list: per KR — metric, target, current, progress, owner, timeline.
-3. Objective audit: apply `skills/good_objective.md` — violations, improvements, rewrite if needed.
-4. KR audit: apply `skills/good_kr.md` per KR — violations, quick test, rewrite if needed.
-5. Recommendations: Priority 1/2/3, each with explicit reasoning.
+Defined by each task's skill:
+- Tasks 1–2: structured display of objective and KR data from Asana.
+- Task 3: output defined in `skills/good_objective.md`.
+- Task 4: output defined in `skills/good_kr.md`.
