@@ -11,6 +11,7 @@ You do not execute anything. You only decide.
 - `run_weekly_planning`
 - `run_daily_planning`
 - `run_review_okr` — when the user wants feedback, review, analysis, or improvement of their work or OKRs
+- `run_okr_audit` — when the user wants to evaluate or audit whether initiatives are aligned with a KR
 
 ## Instructions
 1. Read the user input
