@@ -6,6 +6,14 @@ def call_llm(prompt: str) -> str:
     # Mock LLM — replace with real API call later
     p = prompt.lower().strip()
 
+    # Check for evaluation request
+    if any(k in p for k in ["eval", "evaluar", "evaluate", "evaluation"]):
+        return json.dumps({
+            "action": "run_use_case",
+            "use_case": "run_review_okr",
+            "params": {"action": "eval"}
+        })
+
     # Check for simple number input (for OKR selection)
     if p.isdigit():
         return json.dumps({

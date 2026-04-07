@@ -1,21 +1,26 @@
 from infrastructure.asana.get_tasks import get_tasks
-from application.review.okr_cache import set_objectives, get_objective_by_index
+from application.review.okr_cache import set_objectives, get_objective_by_index, set_selected_kr, get_selected_objective, get_selected_kr
+from application.review.evaluate import run_evaluate_okr
 
 
-def run_review_okr(selected_index: int = None) -> str:
+def run_review_okr(selected_index: int = None, action: str = None) -> str:
     """
     Interactive OKR review.
 
     If selected_index is None: Show list of main objectives
     If selected_index is provided: Show KRs and initiatives for that objective
+    If action is 'eval': Evaluate the selected KR
 
     Args:
         selected_index: 1-based index of the objective to review
+        action: Optional action ('eval' for evaluation)
 
     Returns:
         str: Formatted markdown response
     """
-    if selected_index is None:
+    if action == "eval":
+        return _evaluate_selected_kr()
+    elif selected_index is None:
         return _list_objectives()
     else:
         return _show_objective_details(selected_index)
@@ -75,5 +80,36 @@ def _show_objective_details(index: int) -> str:
             output += "  ✅ All initiatives completed\n"
 
         output += "\n"
+        # Store the first KR for evaluation context
+        if pending_krs:
+            set_selected_kr(pending_krs[0])
 
+    output += "\n---\n**Want a detailed evaluation?** Type: `eval`"
     return output
+
+
+def _evaluate_selected_kr() -> str:
+    """Evaluate the currently selected KR."""
+    objective = get_selected_objective()
+    kr = get_selected_kr()
+
+    if not objective or not kr:
+        return "❌ No KR selected. Please select an objective first by typing a number."
+
+    kr_title = kr["title"]
+    initiative_titles = [i["title"] for i in kr["initiatives"] if not i["completed"]]
+
+    if not initiative_titles:
+        return f"ℹ️ All initiatives for '{kr_title}' are completed. No evaluation needed."
+
+    # Evaluate the first pending initiative
+    initiative_title = initiative_titles[0]
+    objective_title = objective["title"]
+
+    evaluation = run_evaluate_okr(
+        kr_title=kr_title,
+        initiative_title=initiative_title,
+        objective_title=objective_title
+    )
+
+    return evaluation
