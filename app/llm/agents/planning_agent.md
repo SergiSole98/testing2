@@ -35,6 +35,7 @@ Get current work time restrictions and availability windows.
 
 ## Capabilities
 - Weekly planning based on OKRs
+- Daily planning based on calendar and availability
 - OKR review and analysis
 - Schedule optimization within work hours
 - Task prioritization

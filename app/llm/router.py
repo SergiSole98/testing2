@@ -4,10 +4,29 @@ import os
 
 def call_llm(prompt: str) -> str:
     # Mock LLM — replace with real API call later
-    p = prompt.lower()
+    p = prompt.lower().strip()
+
+    # Check for evaluation request (interactive OKR eval)
+    if any(k in p for k in ["eval", "evaluar", "evaluate", "evaluation"]):
+        return json.dumps({
+            "action": "run_use_case",
+            "use_case": "run_review_okr",
+            "params": {"action": "eval"}
+        })
+
+    # Check for simple number input (for OKR selection)
+    if p.isdigit():
+        return json.dumps({
+            "action": "run_use_case",
+            "use_case": "run_review_okr",
+            "params": {"selected_index": int(p)}
+        })
+
     if any(k in p for k in ["weekly", "semanal", "semana"]):
         return '{"action": "run_use_case", "use_case": "run_weekly_planning"}'
-    if any(k in p for k in ["evaluar", "auditar", "audit", "evalúa", "evalua"]):
+    if any(k in p for k in ["daily", "diario", "día", "dia"]):
+        return '{"action": "run_use_case", "use_case": "run_daily_planning"}'
+    if any(k in p for k in ["auditar", "audit", "auditoría"]):
         return '{"action": "run_use_case", "use_case": "run_okr_audit"}'
     if any(k in p for k in ["okr", "review", "revisión", "revision", "feedback", "análisis", "analisis"]):
         return '{"action": "run_use_case", "use_case": "run_review_okr"}'
