@@ -8,6 +8,5 @@ Defines the execution system used to structure and track work from strategy to d
 1. **Objective** 
 2. **Key Results** 
 3. **Initiatives**
-4. **Sprints**
-5. **Tasks** 
+4. **Tasks** 
 6. Each level serves the one above it. 
