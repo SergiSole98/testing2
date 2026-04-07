@@ -2,14 +2,12 @@ from llm.router import route_use_case
 from application.weekly.run import run_weekly_planning
 from application.daily.run import run_daily_planning
 from application.review.run import run_review_okr
-from application.review.audit import run_okr_audit
 
 
 USE_CASE_MAP = {
     "run_weekly_planning": run_weekly_planning,
     "run_daily_planning": run_daily_planning,
     "run_review_okr": run_review_okr,
-    "run_okr_audit": run_okr_audit,
 }
 
 

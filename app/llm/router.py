@@ -26,9 +26,9 @@ def call_llm(prompt: str) -> str:
         return '{"action": "run_use_case", "use_case": "run_weekly_planning"}'
     if any(k in p for k in ["daily", "diario", "día", "dia"]):
         return '{"action": "run_use_case", "use_case": "run_daily_planning"}'
-    if any(k in p for k in ["auditar", "audit", "auditoría"]):
-        return '{"action": "run_use_case", "use_case": "run_okr_audit"}'
-    if any(k in p for k in ["okr", "review", "revisión", "revision", "feedback", "análisis", "analisis"]):
+
+    # OKR review with audit or review modes
+    if any(k in p for k in ["okr", "review", "revisión", "revision", "feedback", "análisis", "analisis", "auditar", "audit", "auditoría"]):
         # Check if user specified audit or review mode
         if any(k in p for k in ["audit", "auditar", "auditoría"]):
             return json.dumps({
