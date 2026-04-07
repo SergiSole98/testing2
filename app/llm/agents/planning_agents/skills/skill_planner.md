@@ -9,4 +9,4 @@ Apply when scheduling OKR tasks in Google Calendar. Maps tasks to available time
 3. Check calendar availability before scheduling — do not overlap existing events.
 4. Assign each task to its due date; if the slot is full, schedule the day before.
 5. One task per time slot.
-6. If no free slot exists for a task, flag it and ask the user what to do.
+6. If no free slot exists for a task, flag it and ask the user to decide: delete an existing event, allow overlap, or skip the task.
