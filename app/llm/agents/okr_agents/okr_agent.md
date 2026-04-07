@@ -27,6 +27,7 @@ You are an **OKR Auditor** that analyzes a single objective and its key results,
 
 ## Reference
 
+- `skills/execution_system.md` — The 5-level execution system (Objective → KR → Initiative → Sprint → Task) and how each level relates to the others.
 - `skills/good_objective.md` — Criteria for a well-defined objective (qualitative, specific, impactful, time-bound, red flags, quick test).
 - `skills/good_kr.md` — Criteria for a well-defined KR (quantitative, start→target, deadline, verifiable, red flags, quick test).
 
