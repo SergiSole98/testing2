@@ -29,7 +29,21 @@ def call_llm(prompt: str) -> str:
     if any(k in p for k in ["auditar", "audit", "auditoría"]):
         return '{"action": "run_use_case", "use_case": "run_okr_audit"}'
     if any(k in p for k in ["okr", "review", "revisión", "revision", "feedback", "análisis", "analisis"]):
-        return '{"action": "run_use_case", "use_case": "run_review_okr"}'
+        # Check if user specified audit or review mode
+        if any(k in p for k in ["audit", "auditar", "auditoría"]):
+            return json.dumps({
+                "action": "run_use_case",
+                "use_case": "run_review_okr",
+                "params": {"mode": "audit"}
+            })
+        elif any(k in p for k in ["review", "revisar"]):
+            return json.dumps({
+                "action": "run_use_case",
+                "use_case": "run_review_okr",
+                "params": {"mode": "review"}
+            })
+        else:
+            return '{"action": "run_use_case", "use_case": "run_review_okr"}'
     return '{"action": "ask_user", "question": "Can you clarify what you want to do?"}'
 
 

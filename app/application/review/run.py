@@ -3,24 +3,30 @@ from application.review.okr_cache import set_objectives, get_objective_by_index,
 from application.review.evaluate import run_evaluate_okr
 
 
-def run_review_okr(selected_index: int = None, action: str = None) -> str:
+def run_review_okr(selected_index: int = None, action: str = None, mode: str = None) -> str:
     """
-    Interactive OKR review.
+    Interactive OKR review and audit system.
 
-    If selected_index is None: Show list of main objectives
-    If selected_index is provided: Show KRs and initiatives for that objective
-    If action is 'eval': Evaluate the selected KR
+    Modes:
+    - None (first call): Ask user if they want to audit or review
+    - 'review': Show KRs and initiatives (evaluation mode)
+    - 'audit': Conversational audit with probing questions
 
     Args:
-        selected_index: 1-based index of the objective to review
+        selected_index: 1-based index of the objective
         action: Optional action ('eval' for evaluation)
+        mode: Optional mode ('audit' or 'review')
 
     Returns:
         str: Formatted markdown response
     """
-    if action == "eval":
+    if mode == "audit":
+        return _start_audit(selected_index)
+    elif action == "eval":
         return _evaluate_selected_kr()
     elif selected_index is None:
+        if mode is None:
+            return _ask_mode()
         return _list_objectives()
     else:
         return _show_objective_details(selected_index)
@@ -86,6 +92,61 @@ def _show_objective_details(index: int) -> str:
 
     output += "\n---\n**Want a detailed evaluation?** Type: `eval`"
     return output
+
+
+def _ask_mode() -> str:
+    """Ask user if they want to audit or review OKRs."""
+    return """## OKR Options
+
+Choose your mode:
+
+**1. Audit** 🔍
+- Deep analysis of your OKRs
+- Probing questions about alignment and feasibility
+- Strategic recommendations
+- Best for: Understanding if your OKRs are on track
+
+**2. Review** 📊
+- Quick overview of progress
+- Evaluation of current initiatives
+- Status check
+- Best for: Daily/weekly progress tracking
+
+Type: `audit` or `review`"""
+
+
+def _start_audit(selected_index: int) -> str:
+    """Start the audit process for a selected objective."""
+    objective = get_objective_by_index(selected_index)
+
+    if not objective:
+        return "❌ Invalid selection. Please try again."
+
+    # This would invoke the OKR Audit Agent
+    # For now, return the beginning of the audit
+    audit_start = f"""
+## 🔍 OKR Audit - Deep Dive
+
+🎯 **OBJECTIVE**: {objective['title']}
+- Start Date: [from Asana]
+- Due Date: [from Asana]
+
+Now let's audit this objective thoroughly.
+
+**Phase 1: Understanding the Context**
+
+1. What is the business/personal reason for this objective?
+2. What problem are you solving?
+3. What does success look like in concrete terms?
+
+*Reply to continue with the audit...*
+
+---
+
+**Note**: Full audit with conversational AI coming soon. This requires Claude API integration for interactive questioning.
+"""
+
+    return audit_start
 
 
 def _evaluate_selected_kr() -> str:
