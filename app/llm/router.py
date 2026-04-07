@@ -6,14 +6,6 @@ def call_llm(prompt: str) -> str:
     # Mock LLM — replace with real API call later
     p = prompt.lower().strip()
 
-    # Check for evaluation request (interactive OKR eval)
-    if any(k in p for k in ["eval", "evaluar", "evaluate", "evaluation"]):
-        return json.dumps({
-            "action": "run_use_case",
-            "use_case": "run_review_okr",
-            "params": {"action": "eval"}
-        })
-
     # Check for simple number input (for OKR selection)
     if p.isdigit():
         return json.dumps({
@@ -27,23 +19,9 @@ def call_llm(prompt: str) -> str:
     if any(k in p for k in ["daily", "diario", "día", "dia"]):
         return '{"action": "run_use_case", "use_case": "run_daily_planning"}'
 
-    # OKR review with audit or review modes
-    if any(k in p for k in ["okr", "review", "revisión", "revision", "feedback", "análisis", "analisis", "auditar", "audit", "auditoría"]):
-        # Check if user specified audit or review mode
-        if any(k in p for k in ["audit", "auditar", "auditoría"]):
-            return json.dumps({
-                "action": "run_use_case",
-                "use_case": "run_review_okr",
-                "params": {"mode": "audit"}
-            })
-        elif any(k in p for k in ["review", "revisar"]):
-            return json.dumps({
-                "action": "run_use_case",
-                "use_case": "run_review_okr",
-                "params": {"mode": "review"}
-            })
-        else:
-            return '{"action": "run_use_case", "use_case": "run_review_okr"}'
+    if any(k in p for k in ["okr", "revisión", "revision", "feedback", "análisis", "analisis", "auditar", "audit", "auditoría"]):
+        return '{"action": "run_use_case", "use_case": "run_review_okr"}'
+
     return '{"action": "ask_user", "question": "Can you clarify what you want to do?"}'
 
 

@@ -34,4 +34,4 @@ Step 4 → agent_audit_krs.md
 ## Context
 
 - **Input**: One objective name or GID from Asana.
-- **Skills**: `skills/execution_system.md`, `skills/good_objective.md`, `skills/good_kr.md`.
+- **Skills**: `skills/execution_system.md`, `skills/audit_objective.md`, `skills/audit_kr.md`.
