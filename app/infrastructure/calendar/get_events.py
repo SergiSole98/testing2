@@ -31,3 +31,14 @@ def get_events(start: str, end: str) -> list:
         })
 
     return events
+
+
+if __name__ == "__main__":
+    import json
+    import argparse
+    parser = argparse.ArgumentParser(description="Fetch Google Calendar events")
+    parser.add_argument("--start", required=True, help="Start datetime (ISO 8601, e.g. 2026-04-08T00:00:00)")
+    parser.add_argument("--end", required=True, help="End datetime (ISO 8601, e.g. 2026-04-08T23:59:59)")
+    args = parser.parse_args()
+    result = get_events(args.start, args.end)
+    print(json.dumps(result, indent=2, ensure_ascii=False))

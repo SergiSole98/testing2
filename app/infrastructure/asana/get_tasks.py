@@ -1,6 +1,7 @@
 import urllib.request
 import json
 import os
+import argparse
 
 ASANA_TOKEN = os.environ["ASANA_TOKEN"]
 OBJECTIVES_SECTION_ID = "1212356635225064"
@@ -60,3 +61,29 @@ def get_tasks() -> list:
         })
 
     return objectives
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Fetch Asana OKRs")
+    parser.add_argument("--completed", type=lambda x: x.lower() == "true", default=None, help="Filter by completed status (true/false)")
+    parser.add_argument("--objective_id", help="Fetch a single objective by GID")
+    args = parser.parse_args()
+
+    if args.objective_id:
+        from get_tasks import _fetch_key_results
+        obj_url = f"https://app.asana.com/api/1.0/tasks/{args.objective_id}?opt_fields=name,completed"
+        obj_data = _get(obj_url)["data"]
+        result = [{
+            "id": obj_data["gid"],
+            "title": obj_data["name"],
+            "completed": obj_data["completed"],
+            "key_results": _fetch_key_results(args.objective_id),
+        }]
+    else:
+        result = get_tasks()
+
+    if args.completed is not None:
+        result = [o for o in result if o["completed"] == args.completed]
+
+    print(json.dumps(result, indent=2, ensure_ascii=False))
